@@ -1,0 +1,15 @@
+<%# show.html.erb から遅延ロードされる Turbo Frame の応答 %>
+<%= turbo_frame_tag dom_id(@article, :similar) do %>
+  <h2>類似記事</h2>
+  <% if !@embedding_ready %>
+    <p>準備中（埋め込みベクトル生成待ち）</p>
+  <% elsif @similar_articles.empty? %>
+    <p>類似記事はまだありません。</p>
+  <% else %>
+    <ul>
+      <% @similar_articles.each do |article| %>
+        <li><%= link_to article.title, article %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>

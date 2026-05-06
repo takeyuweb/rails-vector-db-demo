@@ -20,3 +20,13 @@
   <%= button_to "削除", @article, method: :delete, data: { turbo_confirm: "本当に削除しますか？" } %>
   <%= link_to "記事一覧へ戻る", articles_path %>
 </div>
+
+<%# 機能設計書 §5.1.4: 類似記事セクション。
+    遅延ロードする Turbo Frame で、埋め込みベクトル生成中は「準備中」を表示し、
+    生成完了後に当該フレームを再取得することで内容を差し替えできる構造とする。 %>
+<%= turbo_frame_tag dom_id(@article, :similar),
+                    src: similar_article_path(@article),
+                    loading: :lazy do %>
+  <h2>類似記事</h2>
+  <p>準備中</p>
+<% end %>

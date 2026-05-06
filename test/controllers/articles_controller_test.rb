@@ -51,4 +51,32 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to articles_url
   end
+
+  test "similar action shows 準備中 when embedding not generated" do
+    get similar_article_url(@article)
+    assert_response :success
+    assert_select "p", text: /準備中/
+  end
+
+  test "similar action returns related articles when embedding exists" do
+    other = articles(:ruby_blocks)
+    ArticleEmbedding.create!(
+      article: @article,
+      embedding: Array.new(768) { 0.0 }.tap { |a| a[0] = 1.0 },
+      model_identifier: "test/fake@v1"
+    )
+    fake_search = Object.new
+    fake_search.define_singleton_method(:search) do |query_vector:, k:, exclude_article_ids: []|
+      [ other ]
+    end
+    original = Rails.application.config.vector_search
+    Rails.application.config.vector_search = fake_search
+    begin
+      get similar_article_url(@article)
+      assert_response :success
+      assert_select "ul li a", text: other.title
+    ensure
+      Rails.application.config.vector_search = original
+    end
+  end
 end

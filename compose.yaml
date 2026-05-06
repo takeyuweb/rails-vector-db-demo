@@ -1,0 +1,61 @@
+# 開発用 Docker Compose 構成。
+#
+# 本デモは「完全ローカル動作」「Docker Compose で追体験可能」を制約とする
+# （要件定義書 §3.2）。本ファイルはその開発環境を提供する。
+#
+# 起動: docker compose up
+# 初回セットアップ:
+#   docker compose run --rm web bin/rails db:prepare
+#   docker compose run --rm web bin/rails db:seed
+#
+# - db: pgvector 拡張を含む PostgreSQL（ADR A-3）
+# - web: Rails アプリケーション（puma）
+# - jobs: Solid Queue ワーカー（ArticleEmbeddingJob を処理）
+
+x-app: &app
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  volumes:
+    - .:/rails
+    - bundle:/usr/local/bundle
+  environment:
+    DATABASE_URL: postgres://rails_vector_db_demo:rails_vector_db_demo@db:5432/rails_vector_db_demo_development
+    RAILS_ENV: development
+    BINDING: "0.0.0.0"
+  depends_on:
+    db:
+      condition: service_healthy
+
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: rails_vector_db_demo
+      POSTGRES_PASSWORD: rails_vector_db_demo
+      POSTGRES_DB: rails_vector_db_demo_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rails_vector_db_demo"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    <<: *app
+    command: bin/rails server -b 0.0.0.0 -p 3000
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+
+  jobs:
+    <<: *app
+    command: bin/jobs
+
+volumes:
+  postgres_data:
+  bundle:

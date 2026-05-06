@@ -1,0 +1,14 @@
+<% if search_failed %>
+  <p class="error">検索に失敗しました。しばらくしてから再度お試しください。</p>
+<% elsif query.blank? %>
+  <p>クエリ文を入力してください。</p>
+<% elsif results.empty? %>
+  <p>該当する記事がありません。</p>
+<% else %>
+  <h2>類似度の高い記事 上位 <%= results.size %> 件</h2>
+  <ul>
+    <% results.each do |article| %>
+      <li><%= link_to article.title, article %></li>
+    <% end %>
+  </ul>
+<% end %>

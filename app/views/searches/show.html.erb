@@ -1,0 +1,14 @@
+<% content_for :title, "類似記事検索" %>
+
+<h1>類似記事検索</h1>
+
+<%= form_with url: search_path, method: :get,
+              data: { turbo_frame: "search_results" } do |form| %>
+  <%= form.search_field :q, value: @query, placeholder: "キーワードまたは質問文", size: 40 %>
+  <%= form.submit "検索" %>
+<% end %>
+
+<%# 機能設計書 §5.2 Hotwire 活用方針: 結果領域を Turbo Frame として実装 %>
+<%= turbo_frame_tag "search_results" do %>
+  <%= render "result", query: @query, results: @results, search_failed: @search_failed %>
+<% end %>

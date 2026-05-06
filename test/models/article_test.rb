@@ -1,9 +1,24 @@
 require "test_helper"
 
 class ArticleTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   test "valid with title and body" do
     article = Article.new(title: "Rails 入門", body: "Rails の基本を学ぶ")
     assert article.valid?
+  end
+
+  test "enqueues ArticleEmbeddingJob after create" do
+    assert_enqueued_with(job: ArticleEmbeddingJob) do
+      Article.create!(title: "新規記事", body: "本文")
+    end
+  end
+
+  test "enqueues ArticleEmbeddingJob after update" do
+    article = articles(:rails_intro)
+    assert_enqueued_with(job: ArticleEmbeddingJob, args: [ article.id ]) do
+      article.update!(title: "更新後タイトル")
+    end
   end
 
   test "invalid without title" do

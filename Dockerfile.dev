@@ -18,9 +18,14 @@ RUN apt-get update -qq && \
 
 WORKDIR /rails
 
+# informers の埋め込みモデルキャッシュを compose の volume に固定する。
+# XDG_CACHE_HOME 配下の informers/ ディレクトリが実体（informers/env.rb 参照）。
 ENV BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_BIN=/usr/local/bundle/bin \
-    PATH=/usr/local/bundle/bin:$PATH
+    PATH=/usr/local/bundle/bin:$PATH \
+    XDG_CACHE_HOME=/rails-cache
+
+RUN mkdir -p ${XDG_CACHE_HOME}
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle install

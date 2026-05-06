@@ -19,10 +19,12 @@ x-app: &app
   volumes:
     - .:/rails
     - bundle:/usr/local/bundle
+    - informers_cache:/rails-cache
   environment:
     DATABASE_URL: postgres://rails_vector_db_demo:rails_vector_db_demo@db:5432/rails_vector_db_demo_development
     RAILS_ENV: development
     BINDING: "0.0.0.0"
+    EMBEDDING_MODEL_REVISION: ${EMBEDDING_MODEL_REVISION:-main}
   depends_on:
     db:
       condition: service_healthy
@@ -59,3 +61,4 @@ services:
 volumes:
   postgres_data:
   bundle:
+  informers_cache:

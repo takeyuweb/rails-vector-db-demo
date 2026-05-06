@@ -1,0 +1,7 @@
+rails_intro:
+  title: Rails 入門
+  body: Ruby on Rails の基本構造とMVCの考え方を解説します。
+
+ruby_blocks:
+  title: Ruby のブロック構文
+  body: ブロック・Proc・lambda の違いと使いどころをまとめます。

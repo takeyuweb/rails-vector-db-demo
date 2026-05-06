@@ -8,6 +8,8 @@ gem "propshaft"
 gem "pg", "~> 1.1"
 # pgvector を Rails (ActiveRecord) から扱うための gem (ADR A-4)
 gem "neighbor", "~> 1.0"
+# 埋め込みモデルを ONNX Runtime 経由で同一プロセスで実行する gem (ADR A-2)
+gem "informers", "~> 1.3"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]

@@ -1,0 +1,27 @@
+<%= form_with(model: article) do |form| %>
+  <% if article.errors.any? %>
+    <div class="errors">
+      <h2><%= article.errors.count %>件のエラーがあります:</h2>
+      <ul>
+        <% article.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title %>
+    <%= form.text_field :title, size: 60 %>
+  </div>
+
+  <div>
+    <%= form.label :body %>
+    <%= form.textarea :body, rows: 12, cols: 60 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "保存" %>
+    <%= link_to "キャンセル", article.persisted? ? article : articles_path %>
+  </div>
+<% end %>

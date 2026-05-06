@@ -1,0 +1,22 @@
+<% content_for :title, @article.title %>
+
+<article>
+  <h1><%= @article.title %></h1>
+
+  <p>
+    <small>
+      作成日時: <%= l @article.created_at, format: :long %>
+      / 更新日時: <%= l @article.updated_at, format: :long %>
+    </small>
+  </p>
+
+  <div class="body">
+    <%= simple_format @article.body %>
+  </div>
+</article>
+
+<div class="actions">
+  <%= link_to "編集", edit_article_path(@article) %>
+  <%= button_to "削除", @article, method: :delete, data: { turbo_confirm: "本当に削除しますか？" } %>
+  <%= link_to "記事一覧へ戻る", articles_path %>
+</div>

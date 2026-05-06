@@ -1,0 +1,27 @@
+ja:
+  date:
+    formats:
+      default: "%Y年%m月%d日"
+      short: "%m/%d"
+      long: "%Y年%m月%d日(%a)"
+  time:
+    formats:
+      default: "%Y年%m月%d日 %H:%M"
+      short: "%m/%d %H:%M"
+      long: "%Y年%m月%d日 %H:%M"
+
+  errors:
+    messages:
+      blank: "を入力してください"
+      taken: "はすでに存在します"
+
+  activerecord:
+    models:
+      article: "記事"
+      article_embedding: "記事の埋め込みベクトル"
+    attributes:
+      article:
+        title: "タイトル"
+        body: "本文"
+        created_at: "作成日時"
+        updated_at: "更新日時"

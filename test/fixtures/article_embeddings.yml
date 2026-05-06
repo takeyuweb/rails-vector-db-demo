@@ -1,0 +1,2 @@
+# 768次元ベクトルをfixtureで表現するのは現実的ではないため、テスト中で
+# 必要に応じて動的に生成する（test/models/article_embedding_test.rb 参照）。

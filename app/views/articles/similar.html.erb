@@ -1,5 +1,7 @@
 <%# show.html.erb から遅延ロードされる Turbo Frame の応答 %>
-<%= turbo_frame_tag dom_id(@article, :similar) do %>
+<%# target: "_top" でフレーム内リンクを全画面遷移にする。
+    省略すると別記事へのリンク先で同名フレームを探しにいき "content missing" になる。 %>
+<%= turbo_frame_tag dom_id(@article, :similar), target: "_top" do %>
   <h2>類似記事</h2>
   <% if !@embedding_ready %>
     <p>準備中（埋め込みベクトル生成待ち）</p>

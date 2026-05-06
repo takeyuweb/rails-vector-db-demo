@@ -26,7 +26,8 @@
     生成完了後に当該フレームを再取得することで内容を差し替えできる構造とする。 %>
 <%= turbo_frame_tag dom_id(@article, :similar),
                     src: similar_article_path(@article),
-                    loading: :lazy do %>
+                    loading: :lazy,
+                    target: "_top" do %>
   <h2>類似記事</h2>
   <p>準備中</p>
 <% end %>

@@ -8,7 +8,8 @@
   <%= form.submit "検索" %>
 <% end %>
 
-<%# 機能設計書 §5.2 Hotwire 活用方針: 結果領域を Turbo Frame として実装 %>
-<%= turbo_frame_tag "search_results" do %>
+<%# 機能設計書 §5.2 Hotwire 活用方針: 結果領域を Turbo Frame として実装。
+    target: "_top" で結果リスト中のリンクをフレーム外（記事詳細ページ）へ遷移させる。 %>
+<%= turbo_frame_tag "search_results", target: "_top" do %>
   <%= render "result", query: @query, results: @results, search_failed: @search_failed %>
 <% end %>

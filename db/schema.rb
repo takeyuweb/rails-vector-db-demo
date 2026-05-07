@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_06_062000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_07_003554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -22,6 +22,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_06_062000) do
     t.string "model_identifier", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_article_embeddings_on_article_id", unique: true
+    t.index ["embedding"], name: "index_article_embeddings_on_embedding", opclass: :vector_cosine_ops, using: :hnsw
   end
 
   create_table "articles", force: :cascade do |t|

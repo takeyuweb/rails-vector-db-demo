@@ -33,13 +33,13 @@ x-app: &app
 
 services:
   db:
-    image: pgvector/pgvector:pg17
+    image: pgvector/pgvector:pg18
     environment:
       POSTGRES_USER: rails_vector_db_demo
       POSTGRES_PASSWORD: rails_vector_db_demo
       POSTGRES_DB: rails_vector_db_demo_development
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     ports:
       - "5432:5432"
     healthcheck:
